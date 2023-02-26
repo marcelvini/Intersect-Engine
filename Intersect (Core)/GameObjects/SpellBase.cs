@@ -165,6 +165,9 @@ namespace Intersect.GameObjects
     [Owned]
     public partial class SpellCombatData
     {
+        public Guid ChainSpellId { get; set; }
+
+        public long ChainSpellDelay { get; set; }
 
         [NotMapped] public int[] VitalDiff = new int[(int) Vital.VitalCount];
 
