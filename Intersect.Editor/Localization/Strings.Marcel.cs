@@ -10,5 +10,10 @@ namespace Intersect.Editor.Localization
 
             public static LocalizedString ChainSpellDelay = @"Spell Delay:";
         }
+
+        public partial struct EventChangeSprite
+        {
+            public static LocalizedString HidePaperdolls = @"Hide all Paperdolls?";
+        }
     }
 }
