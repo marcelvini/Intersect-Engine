@@ -358,6 +358,8 @@ namespace Intersect.Server.Entities
                         Blocking = false;
                         PacketSender.SendEntityAttack(this, -1);
                     }
+
+                    CheckChainSpells();
                 }
             }
             finally
@@ -2313,6 +2315,8 @@ namespace Intersect.Server.Entities
                 default:
                     break;
             }
+
+            AddChainSpell(spellBase, CastTarget);
 
             if (spellSlot >= 0 && spellSlot < Options.MaxPlayerSkills)
             {

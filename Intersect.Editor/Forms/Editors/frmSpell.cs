@@ -149,6 +149,8 @@ namespace Intersect.Editor.Forms.Editors
 
             InitLocalization();
             UpdateEditor();
+
+            ExtraLoad();
         }
 
         private void InitLocalization()
@@ -275,6 +277,8 @@ namespace Intersect.Editor.Forms.Editors
 
             btnSave.Text = Strings.SpellEditor.save;
             btnCancel.Text = Strings.SpellEditor.cancel;
+
+            ExtraLocalization();
         }
 
         private void UpdateEditor()
@@ -322,6 +326,8 @@ namespace Intersect.Editor.Forms.Editors
                     mChanged.Add(mEditorItem);
                     mEditorItem.MakeBackup();
                 }
+
+                ExtraUpdate();
             }
             else
             {

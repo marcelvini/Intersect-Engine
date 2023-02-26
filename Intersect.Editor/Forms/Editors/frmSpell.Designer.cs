@@ -34,6 +34,11 @@ namespace Intersect.Editor.Forms.Editors
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmSpell));
             this.pnlContainer = new System.Windows.Forms.Panel();
             this.grpGeneral = new DarkUI.Controls.DarkGroupBox();
+            this.nudChainSpellDelay = new DarkUI.Controls.DarkNumericUpDown();
+            this.lblChainSpellDelay = new System.Windows.Forms.Label();
+            this.cmbChainSpell = new DarkUI.Controls.DarkComboBox();
+            this.lblChainSpell = new System.Windows.Forms.Label();
+            this.cmbCastSprite = new DarkUI.Controls.DarkComboBox();
             this.lblSpriteCastAnimation = new System.Windows.Forms.Label();
             this.btnAddFolder = new DarkUI.Controls.DarkButton();
             this.lblFolder = new System.Windows.Forms.Label();
@@ -176,9 +181,9 @@ namespace Intersect.Editor.Forms.Editors
             this.btnClearSearch = new DarkUI.Controls.DarkButton();
             this.txtSearch = new DarkUI.Controls.DarkTextBox();
             this.lstGameObjects = new Intersect.Editor.Forms.Controls.GameObjectList();
-            this.cmbCastSprite = new DarkUI.Controls.DarkComboBox();
             this.pnlContainer.SuspendLayout();
             this.grpGeneral.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudChainSpellDelay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.picSpell)).BeginInit();
             this.grpSpellCost.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudCooldownDuration)).BeginInit();
@@ -245,6 +250,10 @@ namespace Intersect.Editor.Forms.Editors
             // 
             this.grpGeneral.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(45)))), ((int)(((byte)(48)))));
             this.grpGeneral.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.grpGeneral.Controls.Add(this.nudChainSpellDelay);
+            this.grpGeneral.Controls.Add(this.lblChainSpellDelay);
+            this.grpGeneral.Controls.Add(this.cmbChainSpell);
+            this.grpGeneral.Controls.Add(this.lblChainSpell);
             this.grpGeneral.Controls.Add(this.cmbCastSprite);
             this.grpGeneral.Controls.Add(this.lblSpriteCastAnimation);
             this.grpGeneral.Controls.Add(this.btnAddFolder);
@@ -267,10 +276,90 @@ namespace Intersect.Editor.Forms.Editors
             this.grpGeneral.ForeColor = System.Drawing.Color.Gainsboro;
             this.grpGeneral.Location = new System.Drawing.Point(2, 0);
             this.grpGeneral.Name = "grpGeneral";
-            this.grpGeneral.Size = new System.Drawing.Size(207, 327);
+            this.grpGeneral.Size = new System.Drawing.Size(207, 379);
             this.grpGeneral.TabIndex = 17;
             this.grpGeneral.TabStop = false;
             this.grpGeneral.Text = "General";
+            // 
+            // nudChainSpellDelay
+            // 
+            this.nudChainSpellDelay.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.nudChainSpellDelay.ForeColor = System.Drawing.Color.Gainsboro;
+            this.nudChainSpellDelay.Location = new System.Drawing.Point(96, 353);
+            this.nudChainSpellDelay.Maximum = new decimal(new int[] {
+            120000,
+            0,
+            0,
+            0});
+            this.nudChainSpellDelay.Name = "nudChainSpellDelay";
+            this.nudChainSpellDelay.Size = new System.Drawing.Size(105, 20);
+            this.nudChainSpellDelay.TabIndex = 68;
+            this.nudChainSpellDelay.Value = new decimal(new int[] {
+            0,
+            0,
+            0,
+            0});
+            this.nudChainSpellDelay.ValueChanged += new System.EventHandler(this.darkNumericUpDown1_ValueChanged);
+            // 
+            // lblChainSpellDelay
+            // 
+            this.lblChainSpellDelay.AutoSize = true;
+            this.lblChainSpellDelay.Location = new System.Drawing.Point(6, 355);
+            this.lblChainSpellDelay.Name = "lblChainSpellDelay";
+            this.lblChainSpellDelay.Size = new System.Drawing.Size(63, 13);
+            this.lblChainSpellDelay.TabIndex = 63;
+            this.lblChainSpellDelay.Text = "Spell Delay:";
+            // 
+            // cmbChainSpell
+            // 
+            this.cmbChainSpell.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.cmbChainSpell.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.cmbChainSpell.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
+            this.cmbChainSpell.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
+            this.cmbChainSpell.DrawDropdownHoverOutline = false;
+            this.cmbChainSpell.DrawFocusRectangle = false;
+            this.cmbChainSpell.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbChainSpell.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbChainSpell.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbChainSpell.ForeColor = System.Drawing.Color.Gainsboro;
+            this.cmbChainSpell.FormattingEnabled = true;
+            this.cmbChainSpell.Location = new System.Drawing.Point(96, 327);
+            this.cmbChainSpell.Name = "cmbChainSpell";
+            this.cmbChainSpell.Size = new System.Drawing.Size(105, 21);
+            this.cmbChainSpell.TabIndex = 62;
+            this.cmbChainSpell.Text = null;
+            this.cmbChainSpell.TextPadding = new System.Windows.Forms.Padding(2);
+            this.cmbChainSpell.SelectedIndexChanged += new System.EventHandler(this.cmbChainSpell_SelectedIndexChanged);
+            // 
+            // lblChainSpell
+            // 
+            this.lblChainSpell.AutoSize = true;
+            this.lblChainSpell.Location = new System.Drawing.Point(6, 330);
+            this.lblChainSpell.Name = "lblChainSpell";
+            this.lblChainSpell.Size = new System.Drawing.Size(63, 13);
+            this.lblChainSpell.TabIndex = 39;
+            this.lblChainSpell.Text = "Chain Spell:";
+            // 
+            // cmbCastSprite
+            // 
+            this.cmbCastSprite.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
+            this.cmbCastSprite.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.cmbCastSprite.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
+            this.cmbCastSprite.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
+            this.cmbCastSprite.DrawDropdownHoverOutline = false;
+            this.cmbCastSprite.DrawFocusRectangle = false;
+            this.cmbCastSprite.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.cmbCastSprite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCastSprite.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbCastSprite.ForeColor = System.Drawing.Color.Gainsboro;
+            this.cmbCastSprite.FormattingEnabled = true;
+            this.cmbCastSprite.Location = new System.Drawing.Point(96, 219);
+            this.cmbCastSprite.Name = "cmbCastSprite";
+            this.cmbCastSprite.Size = new System.Drawing.Size(105, 21);
+            this.cmbCastSprite.TabIndex = 61;
+            this.cmbCastSprite.Text = null;
+            this.cmbCastSprite.TextPadding = new System.Windows.Forms.Padding(2);
+            this.cmbCastSprite.SelectedIndexChanged += new System.EventHandler(this.cmbCastSprite_SelectedIndexChanged);
             // 
             // lblSpriteCastAnimation
             // 
@@ -529,7 +618,7 @@ namespace Intersect.Editor.Forms.Editors
             this.grpSpellCost.Controls.Add(this.lblCastDuration);
             this.grpSpellCost.Controls.Add(this.lblCooldownDuration);
             this.grpSpellCost.ForeColor = System.Drawing.Color.Gainsboro;
-            this.grpSpellCost.Location = new System.Drawing.Point(3, 335);
+            this.grpSpellCost.Location = new System.Drawing.Point(3, 385);
             this.grpSpellCost.Name = "grpSpellCost";
             this.grpSpellCost.Size = new System.Drawing.Size(438, 143);
             this.grpSpellCost.TabIndex = 36;
@@ -784,7 +873,7 @@ namespace Intersect.Editor.Forms.Editors
             this.grpTargetInfo.ForeColor = System.Drawing.Color.Gainsboro;
             this.grpTargetInfo.Location = new System.Drawing.Point(215, 105);
             this.grpTargetInfo.Name = "grpTargetInfo";
-            this.grpTargetInfo.Size = new System.Drawing.Size(225, 222);
+            this.grpTargetInfo.Size = new System.Drawing.Size(225, 274);
             this.grpTargetInfo.TabIndex = 19;
             this.grpTargetInfo.TabStop = false;
             this.grpTargetInfo.Text = "Targetting Info";
@@ -950,7 +1039,7 @@ namespace Intersect.Editor.Forms.Editors
             this.grpCombat.Controls.Add(this.grpEffectDuration);
             this.grpCombat.Controls.Add(this.grpDamage);
             this.grpCombat.ForeColor = System.Drawing.Color.Gainsboro;
-            this.grpCombat.Location = new System.Drawing.Point(3, 485);
+            this.grpCombat.Location = new System.Drawing.Point(3, 535);
             this.grpCombat.Name = "grpCombat";
             this.grpCombat.Size = new System.Drawing.Size(440, 500);
             this.grpCombat.TabIndex = 39;
@@ -1890,7 +1979,7 @@ namespace Intersect.Editor.Forms.Editors
             this.grpEvent.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
             this.grpEvent.Controls.Add(this.cmbEvent);
             this.grpEvent.ForeColor = System.Drawing.Color.Gainsboro;
-            this.grpEvent.Location = new System.Drawing.Point(3, 485);
+            this.grpEvent.Location = new System.Drawing.Point(3, 535);
             this.grpEvent.Name = "grpEvent";
             this.grpEvent.Size = new System.Drawing.Size(438, 48);
             this.grpEvent.TabIndex = 40;
@@ -1927,7 +2016,7 @@ namespace Intersect.Editor.Forms.Editors
             this.grpDash.Controls.Add(this.lblRange);
             this.grpDash.Controls.Add(this.scrlRange);
             this.grpDash.ForeColor = System.Drawing.Color.Gainsboro;
-            this.grpDash.Location = new System.Drawing.Point(3, 485);
+            this.grpDash.Location = new System.Drawing.Point(3, 535);
             this.grpDash.Name = "grpDash";
             this.grpDash.Size = new System.Drawing.Size(200, 181);
             this.grpDash.TabIndex = 38;
@@ -2024,7 +2113,7 @@ namespace Intersect.Editor.Forms.Editors
             this.grpWarp.Controls.Add(this.lblX);
             this.grpWarp.Controls.Add(this.lblMap);
             this.grpWarp.ForeColor = System.Drawing.Color.Gainsboro;
-            this.grpWarp.Location = new System.Drawing.Point(3, 485);
+            this.grpWarp.Location = new System.Drawing.Point(3, 535);
             this.grpWarp.Name = "grpWarp";
             this.grpWarp.Size = new System.Drawing.Size(247, 182);
             this.grpWarp.TabIndex = 35;
@@ -2353,27 +2442,6 @@ namespace Intersect.Editor.Forms.Editors
             this.lstGameObjects.Size = new System.Drawing.Size(191, 422);
             this.lstGameObjects.TabIndex = 32;
             // 
-            // cmbCastSprite
-            // 
-            this.cmbCastSprite.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
-            this.cmbCastSprite.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
-            this.cmbCastSprite.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
-            this.cmbCastSprite.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
-            this.cmbCastSprite.DrawDropdownHoverOutline = false;
-            this.cmbCastSprite.DrawFocusRectangle = false;
-            this.cmbCastSprite.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
-            this.cmbCastSprite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbCastSprite.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmbCastSprite.ForeColor = System.Drawing.Color.Gainsboro;
-            this.cmbCastSprite.FormattingEnabled = true;
-            this.cmbCastSprite.Location = new System.Drawing.Point(96, 219);
-            this.cmbCastSprite.Name = "cmbCastSprite";
-            this.cmbCastSprite.Size = new System.Drawing.Size(105, 21);
-            this.cmbCastSprite.TabIndex = 61;
-            this.cmbCastSprite.Text = null;
-            this.cmbCastSprite.TextPadding = new System.Windows.Forms.Padding(2);
-            this.cmbCastSprite.SelectedIndexChanged += new System.EventHandler(this.cmbCastSprite_SelectedIndexChanged);
-            // 
             // FrmSpell
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -2399,6 +2467,7 @@ namespace Intersect.Editor.Forms.Editors
             this.pnlContainer.ResumeLayout(false);
             this.grpGeneral.ResumeLayout(false);
             this.grpGeneral.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nudChainSpellDelay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.picSpell)).EndInit();
             this.grpSpellCost.ResumeLayout(false);
             this.grpSpellCost.PerformLayout();
@@ -2606,5 +2675,9 @@ namespace Intersect.Editor.Forms.Editors
         private DarkComboBox cmbTickAnimation;
         private System.Windows.Forms.Label lblSpriteCastAnimation;
         private DarkComboBox cmbCastSprite;
+        private DarkNumericUpDown nudChainSpellDelay;
+        private System.Windows.Forms.Label lblChainSpellDelay;
+        private DarkComboBox cmbChainSpell;
+        private System.Windows.Forms.Label lblChainSpell;
     }
 }
