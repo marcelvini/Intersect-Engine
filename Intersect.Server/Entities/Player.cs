@@ -853,6 +853,8 @@ namespace Intersect.Server.Entities
             pkt.Guild = Guild?.Name;
             pkt.GuildRank = GuildRank;
 
+            pkt.HideAllPaperdolls = HideAllPaperdolls;
+
             return pkt;
         }
 

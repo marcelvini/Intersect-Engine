@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Intersect.Enums;
 using MessagePack;
@@ -40,6 +40,9 @@ namespace Intersect.Network.Packets.Server
 
         [Key(30)]
         public int GuildRank { get; set; }
+
+        [Key(31)]
+        public bool HideAllPaperdolls { get; set; }
     }
 
 }

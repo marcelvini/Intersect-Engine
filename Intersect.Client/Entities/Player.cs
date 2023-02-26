@@ -310,6 +310,8 @@ namespace Intersect.Client.Entities
             Guild = playerPacket.Guild;
             Rank = playerPacket.GuildRank;
 
+            HideAllPaperdolls = playerPacket.HideAllPaperdolls;
+
             if (playerPacket.Equipment != null)
             {
                 if (this == Globals.Me && playerPacket.Equipment.InventorySlots != null)
@@ -2145,6 +2147,11 @@ namespace Intersect.Client.Entities
                 {
                     return;
                 }
+            }
+
+            if(HideAllPaperdolls == true)
+            {
+                return;
             }
 
             base.DrawEquipment(filename, renderColor, entityRect);

@@ -28,7 +28,8 @@ namespace Intersect.Network.Packets.Server
             string face,
             int level,
             string className,
-            EquipmentFragment[] equipment
+            EquipmentFragment[] equipment,
+            bool hideAllPaperdolls
         )
         {
             Id = id;
@@ -38,6 +39,7 @@ namespace Intersect.Network.Packets.Server
             Level = level;
             ClassName = className;
             Equipment = equipment;
+            HideAllPaperdolls = hideAllPaperdolls;
         }
 
         [Key(0)]
@@ -60,6 +62,9 @@ namespace Intersect.Network.Packets.Server
 
         [Key(6)]
         public EquipmentFragment[] Equipment { get; set; }
+
+        [Key(7)]
+        public bool HideAllPaperdolls { get; set; }
 
     }
 
