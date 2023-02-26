@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -30,6 +30,8 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
                 GameContentManager.GetSmartSortedTextureNames(GameContentManager.TextureType.Entity));
             cmbSprite.SelectedIndex = Math.Max(0, cmbSprite.Items.IndexOf(TextUtils.NullToNone(mMyCommand.Sprite)));
             UpdatePreview();
+
+            ExtraLoad();
         }
 
         private void InitLocalization()
@@ -38,6 +40,8 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             lblSprite.Text = Strings.EventChangeSprite.label;
             btnSave.Text = Strings.EventChangeSprite.okay;
             btnCancel.Text = Strings.EventChangeSprite.cancel;
+
+            ExtraLocalization();
         }
 
         private void UpdatePreview()
@@ -64,6 +68,7 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
         private void btnSave_Click(object sender, EventArgs e)
         {
             mMyCommand.Sprite = cmbSprite.Text;
+            mMyCommand.HideAllPaperdolls = chkHidePaperdolls.Checked;
             mEventEditor.FinishCommandEdit();
         }
 

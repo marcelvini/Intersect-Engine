@@ -1297,7 +1297,7 @@ namespace Intersect.Server.Networking
                     characters.Add(
                         new CharacterPacket(
                             character.Id, character.Name, character.Sprite, character.Face, character.Level,
-                            ClassBase.GetName(character.ClassId), equipment
+                            ClassBase.GetName(character.ClassId), equipment, character.HideAllPaperdolls
                         )
                     );
                 }

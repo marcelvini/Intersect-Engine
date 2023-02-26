@@ -284,7 +284,7 @@ namespace Intersect.Client.Interface.Menu
                         var equipment = Characters[mSelectedChar].Equipment[i];
                         var paperdollPortrait = mPaperdollPortraits[i];
 
-                        if (paperdollPortrait != mCharacterPortrait)
+                        if (paperdollPortrait != mCharacterPortrait && Characters[mSelectedChar].HideAllPaperdolls == false)
                         {
                             if (equipment == null)
                             {
@@ -452,6 +452,8 @@ namespace Intersect.Client.Interface.Menu
 
         public string Sprite = "";
 
+        public bool HideAllPaperdolls;
+
         public Character(Guid id)
         {
             Id = id;
@@ -464,7 +466,8 @@ namespace Intersect.Client.Interface.Menu
             string face,
             int level,
             string charClass,
-            EquipmentFragment[] equipment
+            EquipmentFragment[] equipment,
+            bool hideAllPaperdolls
         )
         {
             Equipment = equipment;
@@ -475,6 +478,7 @@ namespace Intersect.Client.Interface.Menu
             Level = level;
             Class = charClass;
             Exists = true;
+            HideAllPaperdolls = hideAllPaperdolls;
         }
 
         public Character()

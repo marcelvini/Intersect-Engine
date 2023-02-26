@@ -582,6 +582,7 @@ namespace Intersect.Server.Entities.Events
         )
         {
             player.Sprite = command.Sprite;
+            player.HideAllPaperdolls = command.HideAllPaperdolls;
             PacketSender.SendEntityDataToProximity(player);
         }
 

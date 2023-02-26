@@ -36,6 +36,7 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             this.lblSprite = new System.Windows.Forms.Label();
             this.btnCancel = new DarkUI.Controls.DarkButton();
             this.btnSave = new DarkUI.Controls.DarkButton();
+            this.chkHidePaperdolls = new DarkUI.Controls.DarkCheckBox();
             this.grpChangeSprite.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,6 +44,7 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             // 
             this.grpChangeSprite.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.grpChangeSprite.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.grpChangeSprite.Controls.Add(this.chkHidePaperdolls);
             this.grpChangeSprite.Controls.Add(this.pnlPreview);
             this.grpChangeSprite.Controls.Add(this.cmbSprite);
             this.grpChangeSprite.Controls.Add(this.lblSprite);
@@ -68,14 +70,20 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             this.cmbSprite.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(73)))), ((int)(((byte)(74)))));
             this.cmbSprite.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
             this.cmbSprite.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
+            this.cmbSprite.ButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(43)))), ((int)(((byte)(43)))), ((int)(((byte)(43)))));
+            this.cmbSprite.DrawDropdownHoverOutline = false;
+            this.cmbSprite.DrawFocusRectangle = false;
             this.cmbSprite.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
             this.cmbSprite.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbSprite.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmbSprite.ForeColor = System.Drawing.Color.Gainsboro;
             this.cmbSprite.FormattingEnabled = true;
             this.cmbSprite.Location = new System.Drawing.Point(47, 19);
             this.cmbSprite.Name = "cmbSprite";
             this.cmbSprite.Size = new System.Drawing.Size(117, 21);
             this.cmbSprite.TabIndex = 22;
+            this.cmbSprite.Text = null;
+            this.cmbSprite.TextPadding = new System.Windows.Forms.Padding(2);
             this.cmbSprite.SelectedIndexChanged += new System.EventHandler(this.cmbSprite_SelectedIndexChanged);
             // 
             // lblSprite
@@ -107,7 +115,18 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             this.btnSave.Text = "Ok";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // EventCommand_ChangeSprite
+            // chkHidePaperdolls
+            // 
+            this.chkHidePaperdolls.AutoSize = true;
+            this.chkHidePaperdolls.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.chkHidePaperdolls.Location = new System.Drawing.Point(7, 46);
+            this.chkHidePaperdolls.Name = "chkHidePaperdolls";
+            this.chkHidePaperdolls.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.chkHidePaperdolls.Size = new System.Drawing.Size(119, 17);
+            this.chkHidePaperdolls.TabIndex = 58;
+            this.chkHidePaperdolls.Text = "Hide all Paperdolls?";
+            // 
+            // EventCommandChangeSprite
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -130,5 +149,6 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
         private System.Windows.Forms.Label lblSprite;
         private DarkComboBox cmbSprite;
         private System.Windows.Forms.Panel pnlPreview;
+        private DarkCheckBox chkHidePaperdolls;
     }
 }

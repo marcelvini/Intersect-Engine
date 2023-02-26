@@ -854,6 +854,7 @@ namespace Intersect.Client.Interface.Game.EntityPanel
                 Align.Center(EntityFace);
                 mCurrentSprite = MyEntity.Face;
                 EntityFace.IsHidden = false;
+
                 var i = 0;
                 for (var z = 0; z < Options.PaperdollOrder[1].Count; z++)
                 {
@@ -930,6 +931,12 @@ namespace Intersect.Client.Interface.Game.EntityPanel
                     }
 
                     if (string.IsNullOrWhiteSpace(paperdoll) && !string.IsNullOrWhiteSpace(PaperdollTextures[n]))
+                    {
+                        paperdollPanel.Texture = null;
+                        paperdollPanel.Hide();
+                        PaperdollTextures[n] = string.Empty;
+                    }
+                    else if(MyEntity is Player plyr && plyr.HideAllPaperdolls == true)
                     {
                         paperdollPanel.Texture = null;
                         paperdollPanel.Hide();
