@@ -248,7 +248,7 @@ namespace Intersect.Client.Interface.Game.Character
                 for (var z = 0; z < Options.PaperdollOrder[1].Count; z++)
                 {
                     var paperdoll = "";
-                    if (Options.EquipmentSlots.IndexOf(Options.PaperdollOrder[1][z]) > -1)
+                    if (Options.EquipmentSlots.IndexOf(Options.PaperdollOrder[1][z]) > -1 && !Globals.Me.HideAllPaperdolls)
                     {
                         var equipment = Globals.Me.MyEquipment;
                         if (equipment[Options.EquipmentSlots.IndexOf(Options.PaperdollOrder[1][z])] > -1 &&
