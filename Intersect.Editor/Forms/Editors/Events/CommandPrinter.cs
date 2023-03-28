@@ -913,23 +913,57 @@ namespace Intersect.Editor.Forms.Editors.Events
         private static string GetCommandText(WarpCommand command, MapInstance map)
         {
             var mapName = Strings.EventCommandList.mapnotfound;
-            for (var i = 0; i < MapList.OrderedMaps.Count; i++)
+            var mapX = String.Empty;
+            var mapY = String.Empty;
+            switch(command.WarpType)
             {
-                if (MapList.OrderedMaps[i].MapId == command.MapId)
-                {
-                    mapName = MapList.OrderedMaps[i].Name;
-                }
+                case WarpType.Specific:
+                    for (var i = 0; i < MapList.OrderedMaps.Count; i++)
+                    {
+                        if (MapList.OrderedMaps[i].MapId == command.MapId)
+                        {
+                            mapName = MapList.OrderedMaps[i].Name;
+                            mapX = command.X.ToString();
+                            mapY = command.Y.ToString();
+                        }
+                    }
+                    break;
+
+                case WarpType.PlayerVariable:
+                    mapName = Strings.EventCommandList.warpPlayerVariable.ToString(PlayerVariableBase.GetName(command.MapId));
+                    mapX = Strings.EventCommandList.warpPlayerVariable.ToString(PlayerVariableBase.GetName(command.VariableX));
+                    mapY = Strings.EventCommandList.warpPlayerVariable.ToString(PlayerVariableBase.GetName(command.VariableY));
+                    break;
+
+                case WarpType.ServerVariable:
+                    mapName = Strings.EventCommandList.warpServerVariable.ToString(ServerVariableBase.GetName(command.MapId));
+                    mapX = Strings.EventCommandList.warpServerVariable.ToString(ServerVariableBase.GetName(command.VariableX));
+                    mapY = Strings.EventCommandList.warpServerVariable.ToString(ServerVariableBase.GetName(command.VariableY));
+                    break;
+
+                case WarpType.GuildVariable:
+                    mapName = Strings.EventCommandList.warpGuildVariable.ToString(GuildVariableBase.GetName(command.MapId));
+                    mapX = Strings.EventCommandList.warpGuildVariable.ToString(GuildVariableBase.GetName(command.VariableX));
+                    mapY = Strings.EventCommandList.warpGuildVariable.ToString(GuildVariableBase.GetName(command.VariableY));
+                    break;
+
+                case WarpType.UserVariable:
+                    mapName = Strings.EventCommandList.warpUserVariable.ToString(UserVariableBase.GetName(command.MapId));
+                    mapX = Strings.EventCommandList.warpUserVariable.ToString(UserVariableBase.GetName(command.VariableX));
+                    mapY = Strings.EventCommandList.warpUserVariable.ToString(UserVariableBase.GetName(command.VariableY));
+                    break;
             }
 
             if (command.ChangeInstance)
             {
                 return Strings.EventCommandList.InstancedWarp.ToString(
-                    mapName, command.X, command.Y, Strings.Direction.dir[(Direction)command.Direction - 1], command.InstanceType.ToString()
+                    mapName, mapX, mapY, Strings.Direction.dir[(Direction)command.Direction - 1], command.InstanceType.ToString()
                 );
-            } else
+            }
+            else
             {
-                return Strings.EventCommandList.warp.ToString(
-                    mapName, command.X, command.Y, Strings.Direction.dir[(Direction)command.Direction - 1]
+                return Strings.EventCommandList.warpSpecific.ToString(
+                    mapName, mapX, mapY, Strings.Direction.dir[(Direction)command.Direction - 1]
                 );
             }
         }

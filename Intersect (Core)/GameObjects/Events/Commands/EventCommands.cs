@@ -589,7 +589,11 @@ namespace Intersect.GameObjects.Events.Commands
 
         public byte X { get; set; }
 
+        public Guid VariableX { get; set; }
+
         public byte Y { get; set; }
+
+        public Guid VariableY { get; set; }
 
         public WarpDirection Direction { get; set; } = WarpDirection.Retain;
 
@@ -602,6 +606,8 @@ namespace Intersect.GameObjects.Events.Commands
         /// The <see cref="MapInstanceType"/> we are going to be warping to
         /// </summary>
         public MapInstanceType InstanceType { get; set; } = MapInstanceType.Overworld;
+
+        public WarpType WarpType { get; set; } = WarpType.Specific;
 
     }
 

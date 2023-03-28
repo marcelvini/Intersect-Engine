@@ -1,10 +1,8 @@
 using System;
 using System.Windows.Forms;
-
-using DarkUI.Controls;
-
 using Intersect.Editor.Localization;
 using Intersect.Enums;
+using Intersect.GameObjects;
 using Intersect.GameObjects.Events.Commands;
 using Intersect.GameObjects.Maps.MapList;
 
@@ -18,52 +16,34 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
 
         private WarpCommand mMyCommand;
 
+        private WarpType mWarpType;
+
         public EventCommandWarp(WarpCommand refCommand, FrmEvent editor)
         {
             InitializeComponent();
             mMyCommand = refCommand;
             mEventEditor = editor;
+
+            nudScrollX.Maximum = Options.MapWidth - 1;
+            nudScrollY.Maximum = Options.MapHeight - 1;
+            mWarpType = mMyCommand.WarpType;
+
             InitLocalization();
-            cmbMap.Items.Clear();
-            cmbInstanceType.Items.Clear();
-            for (var i = 0; i < MapList.OrderedMaps.Count; i++)
-            {
-                cmbMap.Items.Add(MapList.OrderedMaps[i].Name);
-                if (MapList.OrderedMaps[i].MapId == mMyCommand.MapId)
-                {
-                    cmbMap.SelectedIndex = i;
-                }
-            }
-
-            if (cmbMap.SelectedIndex == -1)
-            {
-                cmbMap.SelectedIndex = 0;
-            }
-
-            scrlX.Maximum = Options.MapWidth - 1;
-            scrlY.Maximum = Options.MapHeight - 1;
-            scrlX.Value = mMyCommand.X;
-            scrlY.Value = mMyCommand.Y;
-            lblX.Text = Strings.Warping.x.ToString(scrlX.Value);
-            lblY.Text = Strings.Warping.y.ToString(scrlY.Value);
-            cmbDirection.SelectedIndex = (int) mMyCommand.Direction;
-            chkChangeInstance.Checked = mMyCommand.ChangeInstance;
-            grpInstanceSettings.Visible = chkChangeInstance.Checked;
-
-            // We do not want to iterate over the "NoChange" enum
-            foreach (MapInstanceType instanceType in Enum.GetValues(typeof(MapInstanceType)))
-            {
-                cmbInstanceType.Items.Add(instanceType.ToString());
-            }
-            cmbInstanceType.SelectedIndex = (int) mMyCommand.InstanceType;
+            UpdateFormItems();
         }
 
         private void InitLocalization()
         {
             grpWarp.Text = Strings.EventWarp.title;
+            grpWarpSettings.Text = Strings.Warping.Title.ToString();
+            rdoSpecificMap.Text = Strings.Warping.SpecificMap.ToString();
+            rdoPlayerVariable.Text = Strings.Warping.PlayerVariable.ToString();
+            rdoServerVariable.Text = Strings.Warping.ServerVariable.ToString();
+            rdoGuildVariable.Text = Strings.Warping.GuildVariable.ToString();
+            rdoUserVariable.Text = Strings.Warping.UserVariable.ToString();
             lblMap.Text = Strings.Warping.map.ToString("");
-            lblX.Text = Strings.Warping.x.ToString(scrlX.Value);
-            lblY.Text = Strings.Warping.y.ToString(scrlY.Value);
+            lblX.Text = Strings.Warping.x.ToString();
+            lblY.Text = Strings.Warping.y.ToString();
             lblDir.Text = Strings.Warping.direction.ToString("");
             btnVisual.Text = Strings.Warping.visual;
             cmbDirection.Items.Clear();
@@ -80,14 +60,263 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             btnCancel.Text = Strings.EventWarp.cancel;
         }
 
+        private void UpdateFormItems(bool resetVariables = false)
+        {
+            if(mMyCommand == null)
+            {
+                return;
+            }
+
+            resetForm();
+
+            switch (mWarpType)
+            {
+                case WarpType.Specific:
+                    {
+                        rdoSpecificMap.Checked = true;
+                        for (var i = 0; i < MapList.OrderedMaps.Count; i++)
+                        {
+                            cmbMap.Items.Add(MapList.OrderedMaps[i].Name);
+                            if (MapList.OrderedMaps[i].MapId == mMyCommand.MapId)
+                            {
+                                cmbMap.SelectedIndex = i;
+                            }
+                        }
+
+                        nudScrollX.Value = mMyCommand.X;
+                        nudScrollY.Value = mMyCommand.Y;
+                        chkChangeInstance.Checked = mMyCommand.ChangeInstance;
+
+                        cmbInstanceType.Items.Clear();
+                        // We do not want to iterate over the "NoChange" enum
+                        foreach (MapInstanceType instanceType in Enum.GetValues(typeof(MapInstanceType)))
+                        {
+                            cmbInstanceType.Items.Add(instanceType.ToString());
+                        }
+
+                        cmbInstanceType.SelectedIndex = (int)mMyCommand.InstanceType;
+
+                        if (cmbInstanceType.SelectedIndex == -1)
+                        {
+                            cmbInstanceType.SelectedIndex = 0;
+                        }
+                    }
+                    break;
+
+                case WarpType.PlayerVariable:
+                    {
+                        rdoPlayerVariable.Checked = true;
+                        var VariableNames = PlayerVariableBase.GetNamesByType(VariableDataType.String);
+                        if (VariableNames.Length == 0)
+                        {
+                            AlertNoVariableError();
+                            return;
+                        }
+
+                        cmbMap.Items.AddRange(VariableNames);
+                        cmbScrollX.Items.AddRange(VariableNames);
+                        cmbScrollY.Items.AddRange(VariableNames);
+                        cmbMap.SelectedIndex = PlayerVariableBase.ListIndex(mMyCommand.MapId, VariableDataType.String);
+                        cmbScrollX.SelectedIndex = PlayerVariableBase.ListIndex(mMyCommand.VariableX, VariableDataType.String);
+                        cmbScrollY.SelectedIndex = PlayerVariableBase.ListIndex(mMyCommand.VariableY, VariableDataType.String);
+                    }
+                    break;
+
+                case WarpType.ServerVariable:
+                    {
+                        rdoServerVariable.Checked = true;
+                        var VariableNames = ServerVariableBase.GetNamesByType(VariableDataType.String);
+                        if (VariableNames.Length == 0)
+                        {
+                            AlertNoVariableError();
+                            return;
+                        }
+
+                        cmbMap.Items.AddRange(VariableNames);
+                        cmbScrollX.Items.AddRange(VariableNames);
+                        cmbScrollY.Items.AddRange(VariableNames);
+                        cmbMap.SelectedIndex = ServerVariableBase.ListIndex(mMyCommand.MapId, VariableDataType.String);
+                        cmbScrollX.SelectedIndex = ServerVariableBase.ListIndex(mMyCommand.VariableX, VariableDataType.String);
+                        cmbScrollY.SelectedIndex = ServerVariableBase.ListIndex(mMyCommand.VariableY, VariableDataType.String);
+                    }
+                    break;
+
+                case WarpType.GuildVariable:
+                    {
+                        rdoGuildVariable.Checked = true;
+                        var VariableNames = GuildVariableBase.GetNamesByType(VariableDataType.String);
+                        if (VariableNames.Length == 0)
+                        {
+                            AlertNoVariableError();
+                            return;
+                        }
+
+                        cmbMap.Items.AddRange(VariableNames);
+                        cmbScrollX.Items.AddRange(VariableNames);
+                        cmbScrollY.Items.AddRange(VariableNames);
+                        cmbMap.SelectedIndex = GuildVariableBase.ListIndex(mMyCommand.MapId, VariableDataType.String);
+                        cmbScrollX.SelectedIndex = GuildVariableBase.ListIndex(mMyCommand.VariableX, VariableDataType.String);
+                        cmbScrollY.SelectedIndex = GuildVariableBase.ListIndex(mMyCommand.VariableY, VariableDataType.String);
+                    }
+                    break;
+
+                case WarpType.UserVariable:
+                    {
+                        rdoUserVariable.Checked = true;
+                        var VariableNames = UserVariableBase.GetNamesByType(VariableDataType.String);
+                        if (VariableNames.Length == 0)
+                        {
+                            AlertNoVariableError();
+                            return;
+                        }
+
+                        cmbMap.Items.AddRange(VariableNames);
+                        cmbScrollX.Items.AddRange(VariableNames);
+                        cmbScrollY.Items.AddRange(VariableNames);
+                        cmbMap.SelectedIndex = UserVariableBase.ListIndex(mMyCommand.MapId, VariableDataType.String);
+                        cmbScrollX.SelectedIndex = UserVariableBase.ListIndex(mMyCommand.VariableX, VariableDataType.String);
+                        cmbScrollY.SelectedIndex = UserVariableBase.ListIndex(mMyCommand.VariableY, VariableDataType.String);
+                    }
+                    break;
+            }
+
+            if (cmbMap.Items.Count == 0)
+            {
+                AlertNoVariableError();
+                return;
+            }
+
+            if (cmbMap.SelectedIndex == -1)
+            {
+                cmbMap.SelectedIndex = 0;
+            }
+
+            if (mWarpType != WarpType.Specific && resetVariables)
+            {
+                cmbMap.SelectedIndex = 0;
+                cmbScrollX.SelectedIndex = 0;
+                cmbScrollY.SelectedIndex = 0;
+            }
+
+            cmbScrollX.Visible = mWarpType != WarpType.Specific;
+            cmbScrollY.Visible = mWarpType != WarpType.Specific;
+            nudScrollX.Visible = mWarpType == WarpType.Specific;
+            nudScrollY.Visible = mWarpType == WarpType.Specific;
+            btnVisual.Visible = mWarpType == WarpType.Specific;
+            chkChangeInstance.Visible = mWarpType == WarpType.Specific;
+            grpInstanceSettings.Visible = mWarpType == WarpType.Specific && chkChangeInstance.Checked;
+            cmbDirection.SelectedIndex = (int) mMyCommand.Direction;
+        }
+
+        private void mapRadioButton_Changed()
+        {
+            var tmpWarpType = mWarpType;
+
+            if(rdoSpecificMap.Checked)
+            {
+                mWarpType = WarpType.Specific;
+            }
+
+            if(rdoPlayerVariable.Checked)
+            {
+                mWarpType = WarpType.PlayerVariable;
+            }
+
+            if(rdoServerVariable.Checked)
+            {
+                mWarpType = WarpType.ServerVariable;
+            }
+
+            if(rdoGuildVariable.Checked)
+            {
+                mWarpType = WarpType.GuildVariable;
+            }
+
+            if (rdoUserVariable.Checked)
+            {
+                mWarpType = WarpType.UserVariable;
+            }
+
+            if(tmpWarpType != mWarpType)
+            {
+                UpdateFormItems(true);
+            }
+        }
+
+        private void resetForm()
+        {
+            cmbMap.Items.Clear();
+            cmbScrollX.Items.Clear();
+            cmbScrollY.Items.Clear();
+            nudScrollX.Value = 0;
+            nudScrollY.Value = 0;
+            cmbDirection.SelectedIndex = 0;
+            chkChangeInstance.Checked = false;
+            grpInstanceSettings.Visible = false;
+            cmbInstanceType.Items.Clear();
+            rdoSpecificMap.Checked = false;
+            rdoPlayerVariable.Checked = false;
+            rdoServerVariable.Checked = false;
+            rdoGuildVariable.Checked = false;
+            rdoUserVariable.Checked = false;
+        }
+
+        private void AlertNoVariableError()
+        {
+            MessageBox.Show(Strings.Warping.NoVariableError);
+            rdoSpecificMap.Checked = true;
+            mapRadioButton_Changed();
+        }
+
         private void btnSave_Click(object sender, EventArgs e)
         {
-            mMyCommand.MapId = MapList.OrderedMaps[cmbMap.SelectedIndex].MapId;
-            mMyCommand.X = (byte) scrlX.Value;
-            mMyCommand.Y = (byte) scrlY.Value;
+            if(mWarpType != WarpType.Specific &&
+                (cmbMap.SelectedIndex < 0 || cmbScrollX.SelectedIndex < 0 || cmbScrollY.SelectedIndex < 0))
+            {
+                MessageBox.Show(Strings.Warping.SelectVariableError);
+                return;
+            }
+
+            mMyCommand.WarpType = mWarpType;
+
+            switch(mMyCommand.WarpType)
+            {
+                case WarpType.Specific:
+                    mMyCommand.MapId = MapList.OrderedMaps[cmbMap.SelectedIndex].MapId;
+                    mMyCommand.X = (byte) nudScrollX.Value;
+                    mMyCommand.Y = (byte) nudScrollY.Value;
+                    mMyCommand.ChangeInstance = chkChangeInstance.Checked;
+                    mMyCommand.InstanceType = (MapInstanceType) cmbInstanceType.SelectedIndex;
+                    break;
+                case WarpType.PlayerVariable:
+                    mMyCommand.MapId = PlayerVariableBase.IdFromList(cmbMap.SelectedIndex, VariableDataType.String);
+                    mMyCommand.VariableX = PlayerVariableBase.IdFromList(cmbScrollX.SelectedIndex, VariableDataType.String);
+                    mMyCommand.VariableY = PlayerVariableBase.IdFromList(cmbScrollY.SelectedIndex, VariableDataType.String);
+                    break;
+                case WarpType.ServerVariable:
+                    mMyCommand.MapId = ServerVariableBase.IdFromList(cmbMap.SelectedIndex, VariableDataType.String);
+                    mMyCommand.VariableX = ServerVariableBase.IdFromList(cmbScrollX.SelectedIndex, VariableDataType.String);
+                    mMyCommand.VariableY = ServerVariableBase.IdFromList(cmbScrollY.SelectedIndex, VariableDataType.String);
+                    break;
+                case WarpType.GuildVariable:
+                    mMyCommand.MapId = GuildVariableBase.IdFromList(cmbMap.SelectedIndex, VariableDataType.String);
+                    mMyCommand.VariableX = GuildVariableBase.IdFromList(cmbScrollX.SelectedIndex, VariableDataType.String);
+                    mMyCommand.VariableY = GuildVariableBase.IdFromList(cmbScrollY.SelectedIndex, VariableDataType.String);
+                    break;
+                case WarpType.UserVariable:
+                    mMyCommand.MapId = UserVariableBase.IdFromList(cmbMap.SelectedIndex, VariableDataType.String);
+                    mMyCommand.VariableX = UserVariableBase.IdFromList(cmbScrollX.SelectedIndex, VariableDataType.String);
+                    mMyCommand.VariableY = UserVariableBase.IdFromList(cmbScrollY.SelectedIndex, VariableDataType.String);
+                    break;
+            }
+
+            if(mMyCommand.WarpType != WarpType.Specific)
+            {
+                mMyCommand.ChangeInstance = false;
+                mMyCommand.InstanceType = MapInstanceType.Overworld;
+            }
+
             mMyCommand.Direction = (WarpDirection) cmbDirection.SelectedIndex;
-            mMyCommand.ChangeInstance = chkChangeInstance.Checked;
-            mMyCommand.InstanceType = (MapInstanceType)cmbInstanceType.SelectedIndex;
             mEventEditor.FinishCommandEdit();
         }
 
@@ -96,20 +325,10 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             mEventEditor.CancelCommandEdit();
         }
 
-        private void scrlX_Scroll(object sender, ScrollValueEventArgs e)
-        {
-            lblX.Text = Strings.Warping.x.ToString(scrlX.Value);
-        }
-
-        private void scrlY_Scroll(object sender, ScrollValueEventArgs e)
-        {
-            lblY.Text = Strings.Warping.y.ToString(scrlY.Value);
-        }
-
         private void btnVisual_Click(object sender, EventArgs e)
         {
             var frmWarpSelection = new FrmWarpSelection();
-            frmWarpSelection.SelectTile(MapList.OrderedMaps[cmbMap.SelectedIndex].MapId, scrlX.Value, scrlY.Value);
+            frmWarpSelection.SelectTile(MapList.OrderedMaps[cmbMap.SelectedIndex].MapId, (int) nudScrollX.Value, (int) nudScrollY.Value);
             frmWarpSelection.ShowDialog();
             if (frmWarpSelection.GetResult())
             {
@@ -123,40 +342,39 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
                     }
                 }
 
-                scrlX.Value = frmWarpSelection.GetX();
-                scrlY.Value = frmWarpSelection.GetY();
-                lblX.Text = Strings.Warping.x.ToString(scrlX.Value);
-                lblY.Text = Strings.Warping.y.ToString(scrlY.Value);
+                nudScrollY.Value = frmWarpSelection.GetX();
+                nudScrollY.Value = frmWarpSelection.GetY();
             }
         }
 
-        private void lblY_Click(object sender, EventArgs e)
+        private void rdoSpecificMap_CheckedChanged(object sender, EventArgs e)
         {
+            mapRadioButton_Changed();
         }
 
-        private void lblX_Click(object sender, EventArgs e)
+        private void rdoPlayerVariable_CheckedChanged(object sender, EventArgs e)
         {
+            mapRadioButton_Changed();
         }
 
-        private void label23_Click(object sender, EventArgs e)
+        private void rdoGuildVariable_CheckedChanged(object sender, EventArgs e)
         {
+            mapRadioButton_Changed();
         }
 
-        private void cmbDirection_SelectedIndexChanged(object sender, EventArgs e)
+        private void rdoServerVariable_CheckedChanged(object sender, EventArgs e)
         {
+            mapRadioButton_Changed();
         }
 
-        private void cmbMap_SelectedIndexChanged(object sender, EventArgs e)
+        private void rdoUserVariable_CheckedChanged(object sender, EventArgs e)
         {
-        }
-
-        private void label21_Click(object sender, EventArgs e)
-        {
+            mapRadioButton_Changed();
         }
 
         private void chkChangeInstance_CheckedChanged(object sender, EventArgs e)
         {
-            grpInstanceSettings.Visible = chkChangeInstance.Checked;
+            grpInstanceSettings.Visible = chkChangeInstance.Checked && mWarpType == WarpType.Specific;
         }
     }
 
