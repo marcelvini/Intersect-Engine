@@ -2163,7 +2163,19 @@ Tick timer saved in server config.json.";
             public static LocalizedString waitforroute = @"Wait for Move Route Completion of {00}";
 
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-            public static LocalizedString warp = @"Warp Player [Map: {00} X: {01} Y: {02} Dir: {03}]";
+            public static LocalizedString warpSpecific = @"Warp Player [Map: {00} X: {01} Y: {02} Dir: {03}]";
+
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public static LocalizedString warpPlayerVariable = @"Player Variable {00}'s value.";
+
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public static LocalizedString warpServerVariable = @"Global Variable {00}'s value.";
+
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public static LocalizedString warpGuildVariable = @"Guild Variable {00}'s value.";
+
+            [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+            public static LocalizedString warpUserVariable = @"Account Variable {00}'s value.";
 
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public static LocalizedString InstancedWarp = @"Warp Player to {04} instance [Map: {00} X: {01} Y: {02} Dir: {03}]";
@@ -5472,6 +5484,8 @@ Negative values for time to flow backwards.";
         public partial struct Warping
         {
 
+            public static LocalizedString Title = @"Warp Settings";
+
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public static LocalizedString ChangeInstance = @"Change instance?";
 
@@ -5487,12 +5501,26 @@ Negative values for time to flow backwards.";
 
             public static LocalizedString visual = @"Open Visual Interface";
 
-            public static LocalizedString x = @"X: {00}";
+            public static LocalizedString x = @"X:";
 
-            public static LocalizedString y = @"Y: {00}";
+            public static LocalizedString y = @"Y:";
 
             [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
             public static LocalizedString WarpSound = @"Sound:";
+
+            public static LocalizedString SpecificMap = @"Specific Map";
+
+            public static LocalizedString PlayerVariable = @"Player Variable";
+
+            public static LocalizedString ServerVariable = @"Server Variable";
+
+            public static LocalizedString GuildVariable = @"Guild Variable";
+
+            public static LocalizedString UserVariable = @"Account Variable";
+
+            public static LocalizedString NoVariableError = @"No variable of selected type! Changing to Specific by default!";
+
+            public static LocalizedString SelectVariableError = @"Please select a valid variable for all fields!";
         }
 
         public partial struct WarpSelection

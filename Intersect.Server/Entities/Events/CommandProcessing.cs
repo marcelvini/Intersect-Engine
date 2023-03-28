@@ -711,14 +711,119 @@ namespace Intersect.Server.Entities.Events
             Stack<CommandInstance> callStack
         )
         {
+            Guid mapId = Guid.Empty;
+            float mapX = 0;
+            float mapY = 0;
             MapInstanceType? instanceType = null;
-            if (command.ChangeInstance)
+
+            switch(command.WarpType)
             {
-                instanceType = command.InstanceType;
+                case WarpType.Specific:
+                    {
+                        mapId = command.MapId;
+                        mapX = command.X;
+                        mapY = command.Y;
+
+                        if (command.ChangeInstance)
+                        {
+                            instanceType = command.InstanceType;
+                        }
+                    }
+                    break;
+
+                case WarpType.PlayerVariable:
+                    {
+                        if(MapController.TryGet(new Guid(player.GetVariableValue(command.MapId)), out var map))
+                        {
+                            mapId = map.Id;
+                        }
+
+                        var tmpX = player.GetVariableValue(command.VariableX).Integer;
+                        if (tmpX <= Options.MapWidth)
+                        {
+                            mapX = tmpX;
+                        }
+
+                        var tmpY = player.GetVariableValue(command.VariableY).Integer;
+                        if (tmpY <= Options.MapWidth)
+                        {
+                            mapY = tmpY;
+                        }
+                    }
+                    break;
+
+                case WarpType.ServerVariable:
+                    {
+                        if (MapController.TryGet(new Guid(ServerVariableBase.Get(command.MapId).Value), out var map))
+                        {
+                            mapId = map.Id;
+                        }
+
+                        var tmpX = ServerVariableBase.Get(command.VariableX).Value.Integer;
+                        if (tmpX <= Options.MapWidth)
+                        {
+                            mapX = tmpX;
+                        }
+
+                        var tmpY = ServerVariableBase.Get(command.VariableY).Value.Integer;
+                        if (tmpY <= Options.MapWidth)
+                        {
+                            mapY = tmpY;
+                        }
+                    }
+                    break;
+
+                case WarpType.GuildVariable:
+                    {
+                        if(player.Guild == default)
+                        {
+                            PacketSender.SendChatMsg(player, Strings.Guilds.NotInGuild, ChatMessageType.Error);
+                            return;
+                        }
+
+                        if (MapController.TryGet(new Guid(player.Guild.GetVariableValue(command.MapId)), out var map))
+                        {
+                            mapId = map.Id;
+                        }
+
+                        var tmpX = player.Guild.GetVariableValue(command.VariableX).Integer;
+                        if (tmpX <= Options.MapWidth)
+                        {
+                            mapX = tmpX;
+                        }
+
+                        var tmpY = player.Guild.GetVariableValue(command.VariableY).Integer;
+                        if (tmpY <= Options.MapWidth)
+                        {
+                            mapY = tmpY;
+                        }
+                    }
+                    break;
+
+                case WarpType.UserVariable:
+                    {
+                        if (MapController.TryGet(new Guid(player.User.GetVariableValue(command.MapId)), out var map))
+                        {
+                            mapId = map.Id;
+                        }
+
+                        var tmpX = player.User.GetVariableValue(command.VariableX).Integer;
+                        if (tmpX <= Options.MapWidth)
+                        {
+                            mapX = tmpX;
+                        }
+
+                        var tmpY = player.User.GetVariableValue(command.VariableY).Integer;
+                        if (tmpY <= Options.MapWidth)
+                        {
+                            mapY = tmpY;
+                        }
+                    }
+                    break;
             }
 
             player.Warp(
-                command.MapId, command.X, command.Y,
+                mapId, mapX, mapY,
                 command.Direction == WarpDirection.Retain ? player.Dir : (Direction)(command.Direction - 1),
                 mapInstanceType: instanceType
             );
