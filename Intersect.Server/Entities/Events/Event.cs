@@ -367,6 +367,7 @@ namespace Intersect.Server.Entities.Events
                 //More later.. good start now
                 prams.Add("plyrName", player.Name);
                 prams.Add("plyrMap", player.Map.Name);
+                prams.Add("plyrMapId", player.MapId.ToString());
                 prams.Add("plyrX", player.X.ToString());
                 prams.Add("plyrY", player.Y.ToString());
                 prams.Add("plyrZ", player.Z.ToString());
