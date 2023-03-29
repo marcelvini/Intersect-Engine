@@ -733,9 +733,19 @@ namespace Intersect.Server.Entities.Events
 
                 case WarpType.PlayerVariable:
                     {
-                        if(MapController.TryGet(new Guid(player.GetVariableValue(command.MapId)), out var map))
+                        var convertedId = Guid.TryParse(player.GetVariableValue(command.MapId).String, out var result);
+                        if (!convertedId)
+                        {
+                            return;
+                        }
+
+                        if(MapController.TryGet(result, out var map))
                         {
                             mapId = map.Id;
+                        }
+                        else
+                        {
+                            return;
                         }
 
                         var tmpX = player.GetVariableValue(command.VariableX).Integer;
@@ -754,9 +764,19 @@ namespace Intersect.Server.Entities.Events
 
                 case WarpType.ServerVariable:
                     {
-                        if (MapController.TryGet(new Guid(ServerVariableBase.Get(command.MapId).Value), out var map))
+                        var convertedId = Guid.TryParse(ServerVariableBase.Get(command.MapId).Value.String, out var result);
+                        if (!convertedId)
+                        {
+                            return;
+                        }
+
+                        if (MapController.TryGet(result, out var map))
                         {
                             mapId = map.Id;
+                        }
+                        else
+                        {
+                            return;
                         }
 
                         var tmpX = ServerVariableBase.Get(command.VariableX).Value.Integer;
@@ -781,9 +801,19 @@ namespace Intersect.Server.Entities.Events
                             return;
                         }
 
-                        if (MapController.TryGet(new Guid(player.Guild.GetVariableValue(command.MapId)), out var map))
+                        var convertedId = Guid.TryParse(player.Guild.GetVariableValue(command.MapId).String, out var result);
+                        if (!convertedId)
+                        {
+                            return;
+                        }
+
+                        if (MapController.TryGet(result, out var map))
                         {
                             mapId = map.Id;
+                        }
+                        else
+                        {
+                            return;
                         }
 
                         var tmpX = player.Guild.GetVariableValue(command.VariableX).Integer;
@@ -802,9 +832,19 @@ namespace Intersect.Server.Entities.Events
 
                 case WarpType.UserVariable:
                     {
-                        if (MapController.TryGet(new Guid(player.User.GetVariableValue(command.MapId)), out var map))
+                        var convertedId = Guid.TryParse(player.User.GetVariableValue(command.MapId).String, out var result);
+                        if (!convertedId)
+                        {
+                            return;
+                        }
+
+                        if (MapController.TryGet(result, out var map))
                         {
                             mapId = map.Id;
+                        }
+                        else
+                        {
+                            return;
                         }
 
                         var tmpX = player.User.GetVariableValue(command.VariableX).Integer;
@@ -820,6 +860,11 @@ namespace Intersect.Server.Entities.Events
                         }
                     }
                     break;
+            }
+
+            if(command.WarpType != WarpType.Specific && command.ChangeInstance)
+            {
+                instanceType = command.InstanceType;
             }
 
             player.Warp(
