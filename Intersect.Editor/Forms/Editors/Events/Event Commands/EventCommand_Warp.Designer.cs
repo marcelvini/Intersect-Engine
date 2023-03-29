@@ -54,6 +54,7 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             this.chkChangeInstance = new System.Windows.Forms.CheckBox();
             this.btnCancel = new DarkUI.Controls.DarkButton();
             this.btnSave = new DarkUI.Controls.DarkButton();
+            this.chkReturnOverworld = new System.Windows.Forms.CheckBox();
             this.grpWarp.SuspendLayout();
             this.grpWarpSettings.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudScrollY)).BeginInit();
@@ -65,6 +66,7 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             // 
             this.grpWarp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(63)))), ((int)(((byte)(65)))));
             this.grpWarp.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(90)))), ((int)(((byte)(90)))), ((int)(((byte)(90)))));
+            this.grpWarp.Controls.Add(this.chkReturnOverworld);
             this.grpWarp.Controls.Add(this.grpWarpSettings);
             this.grpWarp.Controls.Add(this.grpInstanceSettings);
             this.grpWarp.Controls.Add(this.chkChangeInstance);
@@ -397,6 +399,16 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             this.btnSave.Text = "Ok";
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // chkReturnOverworld
+            // 
+            this.chkReturnOverworld.AutoSize = true;
+            this.chkReturnOverworld.Location = new System.Drawing.Point(6, 255);
+            this.chkReturnOverworld.Name = "chkReturnOverworld";
+            this.chkReturnOverworld.Size = new System.Drawing.Size(127, 17);
+            this.chkReturnOverworld.TabIndex = 84;
+            this.chkReturnOverworld.Text = "Return to Overworld?";
+            this.chkReturnOverworld.UseVisualStyleBackColor = true;
+            // 
             // EventCommandWarp
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -444,5 +456,6 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
         private DarkNumericUpDown nudScrollX;
         private DarkComboBox cmbScrollY;
         private DarkComboBox cmbScrollX;
+        private System.Windows.Forms.CheckBox chkReturnOverworld;
     }
 }

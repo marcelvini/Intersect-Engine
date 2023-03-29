@@ -5521,6 +5521,8 @@ Negative values for time to flow backwards.";
             public static LocalizedString NoVariableError = @"No variable of selected type! Changing to Specific by default!";
 
             public static LocalizedString SelectVariableError = @"Please select a valid variable for all fields!";
+
+            public static LocalizedString ReturnOverworld = @"Return to Overworld?";
         }
 
         public partial struct WarpSelection

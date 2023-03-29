@@ -55,6 +55,7 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             chkChangeInstance.Text = Strings.Warping.ChangeInstance;
             grpInstanceSettings.Text = Strings.Warping.MapInstancingGroup;
             lblInstanceType.Text = Strings.Warping.InstanceType;
+            chkReturnOverworld.Text = Strings.Warping.ReturnOverworld;
 
             btnSave.Text = Strings.EventWarp.okay;
             btnCancel.Text = Strings.EventWarp.cancel;
@@ -191,11 +192,16 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
                 cmbMap.SelectedIndex = 0;
             }
 
-            if (mWarpType != WarpType.Specific && resetVariables)
+            if (mWarpType != WarpType.Specific)
             {
-                cmbMap.SelectedIndex = 0;
-                cmbScrollX.SelectedIndex = 0;
-                cmbScrollY.SelectedIndex = 0;
+                if(resetVariables)
+                {
+                    cmbMap.SelectedIndex = 0;
+                    cmbScrollX.SelectedIndex = 0;
+                    cmbScrollY.SelectedIndex = 0;
+                }
+
+                chkReturnOverworld.Checked = mMyCommand.ChangeInstance;
             }
 
             cmbScrollX.Visible = mWarpType != WarpType.Specific;
@@ -205,6 +211,7 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             btnVisual.Visible = mWarpType == WarpType.Specific;
             chkChangeInstance.Visible = mWarpType == WarpType.Specific;
             grpInstanceSettings.Visible = mWarpType == WarpType.Specific && chkChangeInstance.Checked;
+            chkReturnOverworld.Visible = mWarpType != WarpType.Specific;
             cmbDirection.SelectedIndex = (int) mMyCommand.Direction;
         }
 
@@ -259,6 +266,7 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
             rdoServerVariable.Checked = false;
             rdoGuildVariable.Checked = false;
             rdoUserVariable.Checked = false;
+            chkReturnOverworld.Checked = false;
         }
 
         private void AlertNoVariableError()
@@ -312,7 +320,7 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
 
             if(mMyCommand.WarpType != WarpType.Specific)
             {
-                mMyCommand.ChangeInstance = false;
+                mMyCommand.ChangeInstance = chkReturnOverworld.Checked;
                 mMyCommand.InstanceType = MapInstanceType.Overworld;
             }
 
