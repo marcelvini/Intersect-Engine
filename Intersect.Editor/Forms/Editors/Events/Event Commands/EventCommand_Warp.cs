@@ -350,7 +350,7 @@ namespace Intersect.Editor.Forms.Editors.Events.Event_Commands
                     }
                 }
 
-                nudScrollY.Value = frmWarpSelection.GetX();
+                nudScrollX.Value = frmWarpSelection.GetX();
                 nudScrollY.Value = frmWarpSelection.GetY();
             }
         }
